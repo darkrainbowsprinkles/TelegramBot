@@ -1,46 +1,48 @@
-# 🤖 Bot de Telegram – Proyecto Administración de Proyectos de Software
+# 🤖 Telegram Bot – Software Project Management Assignment
 
-Este proyecto implementa un **bot de Telegram** desarrollado en Python, ejecutado dentro de Docker y que consume la **API pública de Binance** para obtener precios de criptomonedas.  
-Fue realizado como parte de la materia *Administración de Proyectos de Software*.
+This project implements a **Telegram bot** built in Python, running inside Docker, and consuming the **Binance Public API** to retrieve cryptocurrency prices.  
+It was created as part of the *Software Project Management* course.
 
-## 📌 Funcionalidades del Bot
+## 📌 Bot Features
 
-### ✅ 1. Comando `/start`
-Da la bienvenida y explica las funciones disponibles.
+### ✅ 1. `/start` Command
+Sends a welcome message and explains available commands.
 
-### ✅ 2. Comando `/precio`
-Muestra al usuario un teclado con tres opciones:
+### ✅ 2. `/precio` (Price) Command
+Displays a keyboard with three cryptocurrency options:
 
 - **Bitcoin**
 - **Ether**
 - **Pepe**
 
-Al elegir una, el bot consulta:
+When the user selects one, the bot queries:
 
 ```
 https://api.binance.com/api/v3/ticker/price?symbol=<SYMBOL>
 ```
 
-y responde con el precio actual en USDT en un formato legible.
+and returns the current price in USDT in a clean, readable format.
 
-### ✅ 3. Echo automático
-Cualquier mensaje que no sea un comando es reflejado:
+### ✅ 3. Automatic Echo
+Any message sent by the user that is *not* a command is reflected back:
 
-> Usuario: hola  
-> Bot: hola
+> User: hello  
+> Bot: hello  
 
-### 🔐 4. Token seguro mediante `.env`
-El bot no tiene el token escrito en el código.  
-El token se pasa mediante variables de entorno dentro del contenedor.
+### 🔐 4. Secure Token Management via `.env`
+The bot token is **not hard‑coded**.  
+It is injected through an environment variable using Docker.
 
-### 🐳 5. Dockerizado completamente
-El bot corre en un contenedor Docker usando:
+### 🐳 5. Fully Dockerized
+The bot runs inside a Docker container using:
 
-- Python 3.12 slim
-- requirements.txt
-- long polling (no requiere puertos abiertos)
+- Python 3.12 slim  
+- requirements.txt dependency installation  
+- Long polling (no exposed ports required)  
 
-## 🗂️ Estructura del Proyecto
+---
+
+## 🗂️ Project Structure
 
 ```
 /telegram-bot
@@ -52,69 +54,87 @@ El bot corre en un contenedor Docker usando:
 │── README.md
 ```
 
-## ⚙️ Instalación y Ejecución
+---
 
-### 1️⃣ Clonar repositorio
+## ⚙️ Installation & Execution
+
+### 1️⃣ Clone the repository
 
 ```bash
-git clone <URL-del-repo>
+git clone <repository-url>
 cd telegram-bot
 ```
 
-### 2️⃣ Crear archivo `.env`
+---
+
+### 2️⃣ Create a `.env` file
 
 ```env
-BOT_TOKEN=TU_TOKEN_AQUI
+BOT_TOKEN=YOUR_TELEGRAM_BOT_TOKEN
 ```
 
-### 3️⃣ Construir la imagen
+---
+
+### 3️⃣ Build the Docker image
 
 ```bash
 docker build -t proyecto:latest .
 ```
 
-### 4️⃣ Ejecutar el contenedor
+---
+
+### 4️⃣ Run the container
 
 ```bash
 docker run --name proyecto --env-file .env proyecto:latest
 ```
 
-Verás:
+You should see:
 
 ```
-Bot corriendo con long polling...
+Bot running with long polling...
 ```
 
-## 🧪 Cómo Probar el Bot
+---
 
-1. Abre Telegram y busca tu bot por su **@nombre**.  
-2. Escribe `/start` → el bot responde.  
-3. Escribe `/precio` → aparece un teclado con monedas.  
-4. Selecciona una → el bot da el precio en Binance.  
-5. Escribe cualquier mensaje normal → el bot lo refleja.
+## 🧪 How to Interact With the Bot
 
-## 🌐 API Consumida
+1. Open Telegram and search for your bot by its **@username**.  
+2. Send `/start` → The bot replies.  
+3. Send `/precio` → A menu appears with cryptocurrency options.  
+4. Select one → The bot fetches the current price from Binance.  
+5. Send any other text → The bot echoes it back.
 
-Se usa la API pública de Binance:
+---
+
+## 🌐 External API Used
+
+Binance Public Spot API (no authentication required):
 
 ```url
 GET https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT
 ```
 
-La respuesta se procesa para mostrar el precio de forma clara.
+The response is parsed and formatted for the end user.
 
-## 📦 Dependencias (requirements.txt)
+---
+
+## 📦 Dependencies (`requirements.txt`)
 
 ```
 python-telegram-bot>=21.0
 requests>=2.0
 ```
 
-## 💬 Autor
+---
+
+## 👤 Author
 
 **Ortega Novoa Octavio**
 
-## 📘 Notas
+---
 
-- El bot solo funciona mientras el contenedor Docker está encendido.  
-- No requiere puertos abiertos porque usa *long polling*.  
+## 📘 Notes
+
+- The bot only works while the Docker container is running.  
+- No ports need to be opened thanks to long polling.  
